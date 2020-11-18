@@ -138,7 +138,8 @@ public class ProgramServiceImpl implements ProgramServiceInterface {
                 if (findProgram.isPresent()) {
                     Optional<Quality> qid = qualityDao.findById(bm.getQuality_entry_id());
                     Optional<Quality> qualityId = qualityDao.findByQualityId(qid.get().getQualityId());
-                    //System.out.println(qualityId.get().getQualityId());
+
+                    //If the user enter wrong quality_id then still it will store the information based on quality_entry_id
                     if (qid.isPresent() && qualityId.isPresent()) {
                         bm.setQuality_entry_id(qid.get().getId());
                         bm.setQuality_id(qid.get().getQualityId());

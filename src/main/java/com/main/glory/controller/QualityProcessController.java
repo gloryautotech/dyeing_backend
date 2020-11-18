@@ -2,12 +2,15 @@ package com.main.glory.controller;
 
 import com.main.glory.model.GeneralResponse;
 import com.main.glory.model.qualityProcess.QualityProcessMast;
+import com.main.glory.model.qualityProcess.Request.ProcessList;
 import com.main.glory.servicesImpl.QualityProcessImpl;
+import org.apache.tomcat.jni.Proc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.main.glory.config.ControllerConfig;
-import java.util.List;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -35,6 +38,21 @@ public class QualityProcessController extends ControllerConfig {
 		try {
 			List<QualityProcessMast> qualityProcessMasts = qualityProcess.qualityProcessMasts();
 			return new GeneralResponse<>(qualityProcessMasts, "Fetched Successfully", true, System.currentTimeMillis(),HttpStatus.OK);
+		} catch (Exception e) {
+			return new GeneralResponse<>(null, e.getMessage(), false, System.currentTimeMillis(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/qualityprocess/demo")
+	public GeneralResponse<List<ProcessList>> getQualityDemoProcessList(){
+		try {
+			List<ProcessList> list =new ArrayList<>();
+			list.add(new ProcessList(1,"Demo1"));
+			list.add(new ProcessList(2,"Demo2"));
+			list.add(new ProcessList(3,"Demo3"));
+
+			//List<QualityProcessMast> qualityProcessMasts = qualityProcess.qualityProcessMasts();
+			return new GeneralResponse<>(list, "Fetched Successfully", true, System.currentTimeMillis(),HttpStatus.OK);
 		} catch (Exception e) {
 			return new GeneralResponse<>(null, e.getMessage(), false, System.currentTimeMillis(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
